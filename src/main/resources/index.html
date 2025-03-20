@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="circle.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shape Judge</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #f0f0f0;
+    }
+
+    .container {
+        max-width: 600px;
+        width: 100%;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    #canvas {
+        border: 2px solid #333;
+        background-color: white;
+        cursor: crosshair;
+        margin: 20px 0;
+        touch-action: none;
+        max-width: 100%;
+        display: block;
+    }
+
+    /* Rest of your CSS remains the same */
+    .buttons {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 8px 15px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    button:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+    #targetShape {
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    #score {
+        font-size: 20px;
+        text-align: center;
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .result {
+        display: none;
+        margin-top: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+    }
+
+    .good {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    .average {
+        background-color: #fff3cd;
+        color: #856404;
+    }
+
+    .poor {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    .shape-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 15px;
+        justify-content: center;
+    }
+
+    .shape-option {
+        padding: 8px 12px;
+        background-color: #e9ecef;
+        border: 2px solid #ced4da;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .shape-option:hover {
+        background-color: #dee2e6;
+    }
+
+    .shape-option.selected {
+        background-color: #d1e7dd;
+        border-color: #4CAF50;
+        font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a target="_blank" href="https://jam.pieter.com" style="font-family: 'system-ui', sans-serif; position: fixed; bottom: -1px; right: -1px; padding: 7px; font-size: 14px; font-weight: bold; background: #fff; color: #000; text-decoration: none; z-index: 10; border-top-left-radius: 12px; z-index: 10000; border: 1px solid #fff;">🕹️ Vibe Jam 2025</a>
+  <h1>Shape Judge</h1>
+  <div class="shape-selector" id="shapeSelector">
+    <div class="shape-option" data-shape="SQUARE">Square</div>
+    <div class="shape-option" data-shape="CIRCLE">Circle</div>
+    <div class="shape-option" data-shape="TRIANGLE">Triangle</div>
+    <div class="shape-option" data-shape="PENTAGON">Pentagon</div>
+    <div class="shape-option" data-shape="HEXAGON">Hexagon</div>
+    <div class="shape-option" data-shape="SEPTAGON">Septagon</div>
+    <div class="shape-option" data-shape="OCTAGON">Octagon</div>
+  </div>
+  <div id="targetShape">Draw: <span id="shapeName">Select a shape</span></div>
+  <div class="buttons">
+    <button id="clearButton">Clear</button>
+    <button id="submitButton" disabled>Submit</button>
+  </div>
+  <canvas id="canvas"></canvas>
+  <div id="score"></div>
+  <div id="result" class="result"></div>
+</div>
+
+<script type="text/javascript">
+  // Kotlin/JS compiled code goes here
+  // Add this before loading your main ShapeJudge.js script
+  (function() {
+      // Define resizeCanvas function
+      function resizeCanvas() {
+          var canvas = document.getElementById('canvas');
+          var container = canvas.parentElement;
+          var containerWidth = container.clientWidth - 40; // Subtract padding
+
+          // Set canvas display size (css pixels)
+          var size = Math.min(containerWidth, 400);
+          canvas.style.width = size + 'px';
+          canvas.style.height = size + 'px';
+
+          // Set actual size in memory (scaled to account for extra pixel density)
+          var scale = window.devicePixelRatio;
+          canvas.width = Math.floor(size * scale);
+          canvas.height = Math.floor(size * scale);
+
+          // Normalize coordinate system to use css pixels
+          var ctx = canvas.getContext('2d');
+          ctx.scale(scale, scale);
+      }
+
+      // Add event listeners
+      window.addEventListener('load', resizeCanvas);
+      window.addEventListener('resize', resizeCanvas);
+  })();
+</script>
+
+<script src="ShapeJudge.js"></script>
+</body>
+</html>
